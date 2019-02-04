@@ -1,0 +1,28 @@
+---
+# W. Cyrus Proctor
+# Virtual Slurm Cluster
+# 2019-02-02
+
+- name: SSHD PAM Slurm Integration
+  lineinfile: 
+    path: /etc/pam.d/sshd
+    insertbefore: '^account\s+include\s+password-auth'
+    line: 'account    required     pam_slurm.so'
+
+- name: Slurm Compute RPM List
+  set_fact:
+    pkg_list:
+      - slurm-slurmd-ohpc
+      - slurm-pam_slurm-ohpc
+      - slurm-contribs-ohpc
+
+- name: Slurm Compute RPM Install
+  yum:
+    name: "{{ pkg_list }}"
+    state: installed
+
+- name: Slurm Service
+  service:
+    name: slurmd
+    state: started
+    enabled: yes

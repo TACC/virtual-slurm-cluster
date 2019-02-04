@@ -1,0 +1,14 @@
+---
+# W. Cyrus Proctor
+# Virtual Slurm Cluster
+# 2019-02-02
+
+- name: Slurm Login RPM List
+  set_fact:
+    pkg_list:
+      - slurm-contribs-ohpc
+
+- name: Slurm Login RPM Install
+  yum:
+    name: "{{ pkg_list }}"
+    state: installed

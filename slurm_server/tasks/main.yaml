@@ -1,0 +1,69 @@
+---
+# W. Cyrus Proctor
+# Virtual Slurm Cluster
+# 2019-02-02
+
+- name: Slurm DB Configuration File
+  copy:
+    src: slurmdbd.conf
+    dest: /etc/slurm/slurmdbd.conf
+    owner: root
+    group: root
+    mode: 0600
+
+- name: Slurm Server RPM List
+  set_fact:
+    pkg_list:
+      - slurm-slurmctld-ohpc
+      - slurm-slurmdbd-ohpc
+      - slurm-example-configs-ohpc
+      - mariadb-server
+      - MySQL-python
+
+- name: Slurm Server RPM Install
+  yum:
+    name: "{{ pkg_list }}"
+    state: installed
+
+- name: Maria DB Service
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: Slurm Account DB
+  mysql_db:
+    name: slurm_acct_db
+    state: present
+
+- name: Slurm MySQL User
+  mysql_user:
+    name: slurm
+    host: localhost
+    password: '*B98EBDC40FC181CC31448E620B4A927737407F1B'
+    encrypted: yes
+    priv: 'slurm_acct_db.*:ALL,GRANT'
+    state: present
+    update_password: always
+
+- name: Slurm MySQL User
+  mysql_user:
+    name: slurm
+    host: banana
+    password: '*B98EBDC40FC181CC31448E620B4A927737407F1B'
+    encrypted: yes
+    priv: 'slurm_acct_db.*:ALL,GRANT'
+    state: present
+    update_password: always
+
+- name: Slurm DB Service
+  service:
+    name: slurmdbd
+    state: started
+    enabled: yes
+
+- name: Slurm Controller Service
+  service:
+    name: slurmctld
+    state: started
+    enabled: yes

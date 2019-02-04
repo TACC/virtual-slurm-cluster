@@ -1,0 +1,94 @@
+---
+# W. Cyrus Proctor
+# Virtual Slurm Cluster
+# 2019-02-02
+
+- name: Munge Group
+  group:
+    name: munge
+    gid: 201
+    state: present
+
+- name: Slurm Group
+  group:
+    name: slurm
+    gid: 202
+    state: present
+
+- name: Munge User
+  user:
+    name: munge
+    comment: ""
+    uid: 201
+    group: munge
+    shell: /sbin/nologin
+    createhome: no
+    system: yes
+
+- name: Slurm User
+  user:
+    name: slurm
+    comment: ""
+    uid: 202
+    group: slurm 
+    shell: /sbin/nologin
+    createhome: no
+    system: yes
+
+- name: Munge Directory
+  file:
+    path: /etc/munge
+    owner: munge
+    group: munge
+    state: directory
+    mode: 0700
+
+- name: Munge Key
+  copy:
+    src: munge.key
+    dest: /etc/munge/munge.key
+    owner: munge
+    group: munge
+    mode: 0400
+
+- name: Slurm Directory
+  file:
+    path: /etc/slurm
+    owner: root
+    group: root
+    state: directory
+    mode: 0755
+
+- name: Slurm Configuration File
+  template:
+    src: slurm.conf
+    dest: /etc/slurm/slurm.conf
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Slurm Log Directory
+  file:
+    path: /var/log/slurm
+    owner: slurm
+    group: slurm
+    state: directory
+    mode: 0755
+
+- name: Slurm Common RPM List
+  set_fact:
+    pkg_list:
+      - slurm-ohpc
+      - slurm-perlapi-ohpc
+      - slurm-devel-ohpc
+
+- name: Slurm Common RPM Install
+  yum:
+    name: "{{ pkg_list }}"
+    state: installed
+
+- name: Munge Service
+  service:
+    name: munge
+    state: started
+    enabled: yes

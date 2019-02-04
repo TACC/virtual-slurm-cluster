@@ -1,0 +1,32 @@
+---
+# W. Cyrus Proctor
+# Virtual Slurm Cluster
+# 2019-02-02
+
+- name: Hosts File
+  copy:
+    src: /etc/hosts
+    dest: /etc/hosts
+    owner: root
+    group: root
+    mode: 0644
+
+- set_fact: abort=true
+
+- name: Common RPM Initialization List
+  set_fact:
+    pkg_list:
+      - http://build.openhpc.community/OpenHPC:/1.3/CentOS_7/x86_64/ohpc-release-1.3-1.el7.x86_64.rpm
+      - vim
+      - mailx
+  when:
+    - abort is undefined
+  tags: common_init
+
+- name: Install Common RPMs
+  yum:
+    name: "{{ pkg_list }}"
+    state: installed
+  when:
+    - abort is undefined
+  tags: common_init
