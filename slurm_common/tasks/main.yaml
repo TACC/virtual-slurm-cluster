@@ -67,6 +67,14 @@
     group: root
     mode: 0644
 
+- name: Slurm Job Submit File
+  copy:
+    src: job_submit.lua
+    dest: /etc/slurm/job_submit.lua
+    owner: root
+    group: root
+    mode: 0644
+
 - name: Slurm Log Directory
   file:
     path: /var/log/slurm
