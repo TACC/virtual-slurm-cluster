@@ -1,0 +1,8 @@
+{% for host in groups['c'] %}
+/opt  {{ hostvars[host]['ansible_ssh_host'] }}(ro,sync,root_squash)
+/home {{ hostvars[host]['ansible_ssh_host'] }}(rw,sync,no_root_squash)
+{% endfor %}
+{% for host in groups['l'] %}
+/opt  {{ hostvars[host]['ansible_ssh_host'] }}(ro,sync,root_squash)
+/home {{ hostvars[host]['ansible_ssh_host'] }}(rw,sync,no_root_squash)
+{% endfor %}

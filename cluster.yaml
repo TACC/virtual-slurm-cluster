@@ -5,17 +5,20 @@
 
 - hosts: all
   roles:
-    - { role: common, tags: common }
-    - { role: slurm_common, tags: slurm_common }
+    - { role: common       , tags: common       }
+    - { role: slurm_common , tags: slurm_common }
 
 - hosts: s
   roles:
-    - { role: slurm_server, tags: slurm_server }
+    - { role: nfs_server   , tags: nfs_server   }
+    - { role: slurm_server , tags: slurm_server }
 
 - hosts: c
   roles:
-    - { role: slurm_compute, tags: slurm_compute }
+    - { role: nfs_client    , tags: nfs_client    }
+    - { role: slurm_compute , tags: slurm_compute }
 
 - hosts: l
   roles:
-    - { role: slurm_login, tags: slurm_login }
+    - { role: nfs_client  , tags: nfs_client  }
+    - { role: slurm_login , tags: slurm_login }

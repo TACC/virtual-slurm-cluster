@@ -1,0 +1,47 @@
+---
+# W. Cyrus Proctor
+# Virtual OHPC Cluster
+# 2019-02-22
+
+- name: NFS Export Configuration File
+  template:
+    src: exports
+    dest: /etc/exports
+    owner: root
+    group: root
+    mode: 0644
+
+- name: NFS Server RPM List
+  set_fact:
+    pkg_list:
+      - nfs-utils
+
+- name: NFS Server RPM Install
+  yum:
+    name: "{{ pkg_list }}"
+    state: installed
+
+- name: NFS rpcbind Service
+  service:
+    name:  rpcbind
+    state: started
+    enabled: yes
+
+- name: NFS nfs-server Service
+  service:
+    name:  nfs-server
+    state: started
+    enabled: yes
+
+- name: NFS nfs-lock Service
+  service:
+    name:  nfs-lock
+    state: started
+    enabled: yes
+
+- name: NFS nfs-idmap Service
+  service:
+    name:  nfs-idmap
+    state: started
+    enabled: yes
+

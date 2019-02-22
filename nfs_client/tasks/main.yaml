@@ -1,0 +1,46 @@
+---
+# W. Cyrus Proctor
+# Virtual OHPC Cluster
+# 2019-02-22
+
+- name: NFS Mount Directory
+  file:
+    path: /opt
+    owner: root
+    group: root
+    state: directory
+    mode: 0755
+
+- name: NFS Home Mount Directory
+  file:
+    path: /home
+    owner: root
+    group: root
+    state: directory
+    mode: 0755
+
+- name: NFS Client RPM List
+  set_fact:
+    pkg_list:
+      - nfs-utils
+
+- name: NFS Client RPM Install
+  yum:
+    name: "{{ pkg_list }}"
+    state: installed
+
+- name: NFS Client Mount
+  mount: 
+    name: /opt 
+    src: "{{ hostvars['server']['ansible_ssh_host'] }}:/opt" 
+    fstype: nfs 
+    opts: defaults 
+    state: mounted
+
+- name: NFS Home Client Mount
+  mount: 
+    name: /home
+    src: "{{ hostvars['server']['ansible_ssh_host'] }}:/home" 
+    fstype: nfs 
+    opts: defaults 
+    state: mounted
