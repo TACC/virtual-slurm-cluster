@@ -23,6 +23,7 @@
   set_fact:
     pkg_list:
       - nfs-utils
+      - lmod-ohpc
 
 - name: NFS Client RPM Install
   yum:

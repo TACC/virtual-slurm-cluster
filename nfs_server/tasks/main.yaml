@@ -15,6 +15,38 @@
   set_fact:
     pkg_list:
       - nfs-utils
+      - ohpc-autotools
+      - EasyBuild-ohpc 
+      - hwloc-ohpc
+      - spack-ohpc
+      - valgrind-ohpc
+      - gnu8-compilers-ohpc
+      - openmpi3-pmix-slurm-gnu8-ohpc
+      - ohpc-gnu8-perf-tools 
+      - lmod-defaults-gnu8-openmpi3-ohpc
+      - ohpc-gnu8-python2-libs
+      - ohpc-gnu8-python3-libs 
+      - ohpc-gnu8-runtimes
+      - ohpc-gnu8-openmpi3-perf-tools
+      - ohpc-gnu8-openmpi3-parallel-libs 
+      - ohpc-gnu8-openmpi3-io-libs
+      - prun-ohpc
+      - autoconf-ohpc
+      - cmake-ohpc
+      - hwloc-ohpc
+      - libtool-ohpc
+      - python-scipy-gnu8-openmpi3-ohpc
+      - python-numpy-gnu8-ohpc 
+      - python34-scipy-gnu8-openmpi3-ohpc
+      - python34-numpy-gnu8-ohpc
+      - python-mpi4py-gnu8-mpich-ohpc 
+      - netcdf-cxx-gnu8-openmpi3-ohpc
+      - netcdf-fortran-gnu8-openmpi3-ohpc
+      - netcdf-gnu8-openmpi3-ohpc
+      - phdf5-gnu8-openmpi3-ohpc
+      - pnetcdf-gnu8-openmpi3-ohpc
+      - fftw-gnu8-openmpi3-ohpc
+      - boost-gnu8-openmpi3-ohpc
 
 - name: NFS Server RPM Install
   yum:
