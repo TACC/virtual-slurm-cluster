@@ -20,6 +20,11 @@
       - vim
       - mailx
       - glibc-devel
+      - lua
+      - lua-devel
+      - lua-bit-ohpc
+      - lua-filesystem-ohpc
+      - lua-posix-ohpc
   when:
     - abort is undefined
   tags: common_init
